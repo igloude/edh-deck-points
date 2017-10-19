@@ -63,9 +63,16 @@ textarea {
     color: #7F8FA4;
 }
 
-.small {
+.text--small {
+    margin: 0 0 .2em;
     font-size: .8em;
     color: #7F8FA4;
+}
+
+.text--micro {
+    margin: 0 0 .2em;
+    font-size: .65em;
+    color: #7F8FA4;   
 }
 
 .with--monospace {
@@ -77,13 +84,13 @@ textarea {
 *  ELEMENTS
 */
 
-header,
-footer {
+header {
     text-align: center;
 }
 
 footer {
     margin-top: 4em;
+    margin-bottom: 1em;
 }
 
 label,
