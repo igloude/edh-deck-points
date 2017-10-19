@@ -85,6 +85,7 @@
 				},
 				formatRequest: function(textAreaContents) {
 					var lines = textAreaContents.split('\n');
+					var _this = this;
 		    
 				    for (var i = 0;i < lines.length;i++) {
 
@@ -102,7 +103,7 @@
 					    cardName = decodeURI(cardName); // convert odd characters
 
 					    setTimeout(function () {
-					        this.requestCard(cardName);
+					        _this.requestCard(cardName);
 					    }, 50);
 				    }
 				}
