@@ -96,6 +96,7 @@
 
 					    cardName = cardName.toLowerCase(); // lowercase
 					    cardName = _.replace(cardName, /\s+/g, '-'); // kebab case
+					    cardName = _.replace(cardName, ",", ''); // replace apostrophe
 					    cardName = _.replace(cardName, "'", ''); // replace apostrophe
 					    cardName = decodeURI(cardName); // convert odd characters
 
