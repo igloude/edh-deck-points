@@ -90,10 +90,10 @@
 					        cardName = cardName.slice(2); // remove number
 					    }
 
-					    cardName = decodeURI(cardName); // convert odd characters
-					    cardName = cardName.toLowerCase(); // lowercase
+					    console.log(cardName)
+					    cardName = cardName.replace(/\s+/g, '-').toLowerCase(); // lowercase
 					    cardName = _.replace(cardName, "'", ''); // replace apostrophe
-					    cardName = _.replace(cardName, ' ', '-'); // convert-to-kebab-case
+					    cardName = decodeURI(cardName); // convert odd characters
 
 					    this.requestCard(cardName);
 				    }
