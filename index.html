@@ -17,16 +17,20 @@
 		<h1 class="site--header">Deck Points Calculator</h1>
 	</header>
 	<main id="app">
-		<label for="card-input">
-	        Card Input
-	        <textarea name="card-input" id="cardInput" cols="30" rows="10" v-model="cardInput"></textarea>
-	    </label>
-	    <button @click="formatRequest(cardInput)">Calculate</button>
-	    <p>Deck Points: {{ totalPoints }}</p>
-	    <ul>
-	    	<li v-for="card in output">({{card.value}}) {{card.name}}</li>
-	    </ul>
-	    <button @click="reset()">Reset</button>
+		<div class="input">
+			<label for="card-input">
+		        Card Input
+		        <textarea name="card-input" id="cardInput" cols="30" rows="10" v-model="cardInput"></textarea>
+		    </label>
+		    <button @click="formatRequest(cardInput)">Calculate</button>
+		</div>
+		<div class="output">
+		    <p>Deck Points: {{ totalPoints }}</p>
+		    <ul>
+		    	<li v-for="card in output">({{card.value}}) {{card.name}}</li>
+		    </ul>
+		    <button @click="reset()">Reset</button>
+		</div>
 	</main>
 	<footer>
 		<p class="text--small">Powered by the <a href="https://deckbrew.com/api/">Deckbrew API</a></p>
@@ -72,7 +76,6 @@
 				    // console.log(kebabCardName);
 				    axios.get(requestURL)
 						.then(function (response) {
-							console.log(response);
 							_this.assignPoints(response.data);
 						})
 						.catch(function (error) {
@@ -90,8 +93,8 @@
 					        cardName = cardName.slice(2); // remove number
 					    }
 
-					    console.log(cardName)
-					    cardName = cardName.replace(/\s+/g, '-').toLowerCase(); // lowercase
+					    cardName = cardName.toLowerCase(); // lowercase
+					    cardName = _.replace(cardName, /\s+/g, '-'); // kebab case
 					    cardName = _.replace(cardName, "'", ''); // replace apostrophe
 					    cardName = decodeURI(cardName); // convert odd characters
 
