@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>EDH Deck Points Calculator</title>
+
+	<link rel="stylesheet" href="styles.css">
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.2/vue.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+</head>
+<body>
+	<header>
+		<h1 class="site--header">Deck Points Calculator</h1>
+	</header>
+	<main id="app">
+		<label for="card-input">
+	        Card Input
+	        <textarea name="card-input" id="cardInput" cols="30" rows="10" v-model="cardInput"></textarea>
+	    </label>
+	    <button @click="formatRequest(cardInput)">Calculate</button>
+	    <p>Deck Points: {{ totalPoints }}</p>
+	    <ul>
+	    	<li v-for="card in output">({{card.value}}) {{card.name}}</li>
+	    </ul>
+	    <button @click="reset()">Reset</button>
+	</main>
+	<footer>
+		<p class="text--small">Powered by the <a href="https://deckbrew.com/api/">Deckbrew API</a></p>
+	</footer>
+
+	<script>
+		new Vue({
+			el: '#app',
+			data: {
+				totalPoints: 0,
+				cardInput: [],
+				output: []
+			},
+			methods: {
+				reset: function() {
+					this.totalPoints = 0;
+					this.cardInput = [];
+					this.output = [];
+				},
+				assignPoints: function(data) {
+				    var cardPoints = 5;
+
+				    for ( var i = 0; i < data.editions.length; i++ ) {
+				        var printing = data.editions[i];
+
+				        if (printing.rarity == "common" && cardPoints > 0) {
+				            cardPoints = 0;
+				        } else if (printing.rarity == "uncommon" && cardPoints > 1) {
+				            cardPoints = 1;
+				        } else if (printing.rarity == "rare" && cardPoints > 3) {
+				            cardPoints = 3;
+				        }
+				    }
+				    
+				    this.totalPoints += cardPoints;
+				    
+				    this.output.push({ value: cardPoints, name: data.name });
+				},
+				requestCard: function(kebabCardName) {
+				    var requestURL = "https://api.deckbrew.com/mtg/cards/" + kebabCardName;
+				    var _this = this;
+
+				    // console.log(kebabCardName);
+				    axios.get(requestURL)
+						.then(function (response) {
+							console.log(response);
+							_this.assignPoints(response.data);
+						})
+						.catch(function (error) {
+							console.log(error);
+						});
+				},
+				formatRequest: function(textAreaContents) {
+					var lines = textAreaContents.split('\n');
+		    
+				    for (var i = 0;i < lines.length;i++) {
+				        var cardName = lines[i]; // "this"
+				        
+				        // TODO: allow for any number
+				        if ( _.startsWith(cardName, "1 ") ) {
+					        cardName = cardName.slice(2); // remove number
+					    }
+
+					    cardName = decodeURI(cardName); // convert odd characters
+					    cardName = cardName.toLowerCase(); // lowercase
+					    cardName = _.replace(cardName, "'", ''); // replace apostrophe
+					    cardName = _.replace(cardName, ' ', '-'); // convert-to-kebab-case
+
+					    this.requestCard(cardName);
+				    }
+				}
+			}
+		});
+	</script>
+</body>
+</html>
