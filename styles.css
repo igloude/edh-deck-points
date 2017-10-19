@@ -52,6 +52,7 @@ textarea {
 }
 
 .title {
+    margin: 1em 0 1.25em;
     font-size: 2.5em;
     font-weight: 300;
 }
