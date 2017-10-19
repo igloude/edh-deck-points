@@ -13,28 +13,28 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
 </head>
 <body>
-	<header>
-		<h1 class="site--header">Deck Points Calculator</h1>
-	</header>
-	<main id="app">
-		<div class="input">
-			<label for="card-input">
-		        Card Input
-		        <textarea name="card-input" id="cardInput" cols="30" rows="10" v-model="cardInput"></textarea>
-		    </label>
-		    <button @click="formatRequest(cardInput)">Calculate</button>
-		</div>
-		<div class="output">
-		    <p>Deck Points: {{ totalPoints }}</p>
-		    <ul>
-		    	<li v-for="card in output">({{card.value}}) {{card.name}}</li>
-		    </ul>
-		    <button @click="reset()">Reset</button>
-		</div>
+	<div class="site">
+		<header class="item--contained">
+			<h1 class="title">Deck Points Calculator</h1>
+		</header>
+		<main class="item--contained" id="app">
+			<div class="input">
+				<label class="subtitle" for="card-input">Card Input</label>
+		        <textarea class="area with--monospace" name="card-input" v-model="cardInput"></textarea>
+			    <button class="button button--primary" @click="formatRequest(cardInput)">Calculate</button>
+			</div>
+			<div class="output">
+			    <p class="subtitle">Point Total: {{ totalPoints }}</p>
+			    <ul class="area area--dark with--monospace">
+			    	<li v-for="card in output">({{card.value}}) {{card.name}}</li>
+			    </ul>
+			    <button class="button button--secondary" @click="reset()">Reset</button>
+			</div>
+		</main>
+		<footer class="item--full">
+			<p class="text--small">Powered by the <a href="https://deckbrew.com/api/">Deckbrew API</a></p>
+		</footer>
 	</main>
-	<footer>
-		<p class="text--small">Powered by the <a href="https://deckbrew.com/api/">Deckbrew API</a></p>
-	</footer>
 
 	<script>
 		new Vue({
