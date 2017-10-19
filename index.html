@@ -87,6 +87,7 @@
 					var lines = textAreaContents.split('\n');
 		    
 				    for (var i = 0;i < lines.length;i++) {
+
 				        var cardName = lines[i]; // "this"
 				        
 				        // TODO: allow for any number
@@ -100,7 +101,9 @@
 					    cardName = _.replace(cardName, "'", ''); // replace apostrophe
 					    cardName = decodeURI(cardName); // convert odd characters
 
-					    this.requestCard(cardName);
+					    setTimeout(function () {
+					        this.requestCard(cardName);
+					    }, 50);
 				    }
 				}
 			}
