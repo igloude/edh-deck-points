@@ -85,7 +85,6 @@
 				},
 				formatRequest: function(textAreaContents) {
 					var lines = textAreaContents.split('\n');
-					var _this = this;
 		    
 				    for (var i = 0;i < lines.length;i++) {
 
@@ -102,9 +101,7 @@
 					    cardName = _.replace(cardName, "'", ''); // replace apostrophe
 					    cardName = decodeURI(cardName); // convert odd characters
 
-					    setTimeout(function () {
-					        _this.requestCard(cardName);
-					    }, 50);
+					    this.requestCard(cardName);
 				    }
 				}
 			}
